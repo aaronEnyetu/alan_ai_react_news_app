@@ -1,17 +1,22 @@
-import React, { useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import alanBtn from '@alan-ai/alan-sdk-web'
+import NewsCards from './components/NewsCards/NewsCards';
 
 
 const alanKey = 'efc63fe002222be6d5cc6457ce709aba2e956eca572e1d8b807a3e2338fdd0dc/stage';
 
 const App = () => {
 
+    const [newsArticles, setNewsArticles] = useState([])
+
     useEffect(() => {
         alanBtn({
             key: alanKey,
-            onCommand: ({ command }) => {
-                if (command === 'testCommand') {
+            onCommand: ({ command, articles }) => {
+                if (command === 'newHeadlines') {
                     alert('This code was executed')
+                    setNewsArticles(articles)
+                    console.log(articles)
                 }
             }
         })
@@ -22,6 +27,7 @@ const App = () => {
         
         <div>
             <h1>AI News Application</h1>
+            <NewsCards articles={newsArticles} />
         </div>
     )
 }
